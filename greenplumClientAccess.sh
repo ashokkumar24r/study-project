@@ -33,10 +33,10 @@ else
 statemachine=$(psql -At -U foxwatch -d db_overwatch -h hq-overwatch-prod.clickfox.net -c "select statemachine from client_info where overwatch_ic.client_info.id in (SELECT maxid.max FROM (SELECT overwatch_ic.client_info.clientname, overwatch_ic.client_info.environment, MAX(overwatch_ic.client_info.id) FROM overwatch_ic.client_info GROUP BY 1, 2) maxid) and clientname like '$clientname' and environment like '$environment'";)
 fi
 
+
 sjv()
 {
-#       statemachine=$(psql -At -U foxwatch -d db_overwatch -h hq-overwatch-prod.clickfox.net -c "select statemachine from client_info where overwatch_ic.client_info.id in (SELECT maxid.max FROM (SELECT overwatch_ic.client_info.clientname, overwatch_ic.client_info.environment, MAX(overwatch_ic.client_info.id) FROM overwatch_ic.client_info GROUP BY 1, 2) maxid) and clientname like '$clientname' and environment like '$environment'";)
-#    datetime=$(echo ${datetime:0:4}-${datetime:4:2}-${datetime:6:2})
+
     dateid=$(psql -At -U cf_$clientname -d $clientname -h $statemachine -c "SELECT dateid FROM datetable WHERE datetime = '$datetime';")
     ssid=$(psql -At -U cf_$clientname -d $clientname -h $statemachine -c "SELECT sourcesystemid FROM sourcesystem WHERE name = '$sourcesystem';")
 
